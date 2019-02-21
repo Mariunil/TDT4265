@@ -21,16 +21,21 @@ class ExampleModel(nn.Module):
 
         # Define the convolutional layers
         self.feature_extractor = nn.Sequential(
-            nn.Conv2d(
-                in_channels=image_channels,
-                out_channels=num_filters,
-                kernel_size=5,
-                stride=1,
-                padding=2
-            ),
+            nn.Conv2d( in_channels=image_channels,  out_channels=num_filters, kernel_size=5, stride=1, padding=2),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.ReLU()
+
+            nn.Conv2d( in_channels=num_filters,  out_channels=num_filters*2, kernel_size=5, stride=1, padding=2),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+
+            nn.Conv2d( in_channels=num_filters*2,  out_channels=num_filters*4, kernel_size=5, stride=1, padding=2),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+
         )
+
+
         # The output of feature_extractor will be [batch_size, num_filters, 16, 16]
         self.num_output_features = 32*16*16
         # Initialize our last fully connected layer
@@ -51,12 +56,12 @@ class ExampleModel(nn.Module):
 
         # Run image through convolutional layers
         x = self.feature_extractor(x)
+        print(x.shape)
         # Reshape our input to (batch_size, num_output_features)
         x = x.view(-1, self.num_output_features)
         # Forward pass through the fully-connected layers.
         x = self.classifier(x)
         return x
-
 
 class Trainer:
 
@@ -64,8 +69,7 @@ class Trainer:
         """
         Initialize our trainer class.
         Set hyperparameters, architecture, tracking variables etc.
-        """
-        # Define hyperparameters
+        """        # Define hyperparameters
         self.epochs = 100
         self.batch_size = 64
         self.learning_rate = 5e-2
@@ -105,16 +109,12 @@ class Trainer:
         self.model.eval()
 
         # Compute for training set
-        train_loss, train_acc = compute_loss_and_accuracy(
-            self.dataloader_train, self.model, self.loss_criterion
-        )
+        train_loss, train_acc = compute_loss_and_accuracy(self.dataloader_train, self.model, self.loss_criterion)
         self.TRAIN_ACC.append(train_acc)
         self.TRAIN_LOSS.append(train_loss)
 
         # Compute for validation set
-        validation_loss, validation_acc = compute_loss_and_accuracy(
-            self.dataloader_val, self.model, self.loss_criterion
-        )
+        validation_loss, validation_acc = compute_loss_and_accuracy(self.dataloader_val, self.model, self.loss_criterion)
         self.VALIDATION_ACC.append(validation_acc)
         self.VALIDATION_LOSS.append(validation_loss)
         print("Current validation loss:", validation_loss, " Accuracy:", validation_acc)
@@ -149,6 +149,7 @@ class Trainer:
         Trains the model for [self.epochs] epochs.
         """
         # Track initial loss/accuracy
+
         self.validation_epoch()
         for epoch in range(self.epochs):
             # Perform a full pass through all the training samples
