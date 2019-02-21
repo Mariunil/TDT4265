@@ -18,6 +18,7 @@ class ExampleModel(nn.Module):
         """
         super().__init__()
         num_filters = 32  # Set number of filters in first conv layer
+        num_units_dense_Relu = 64
 
         # Define the convolutional layers
         self.feature_extractor = nn.Sequential(
@@ -31,8 +32,7 @@ class ExampleModel(nn.Module):
 
             nn.Conv2d( in_channels=num_filters*2,  out_channels=num_filters*4, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-
+            nn.MaxPool2d(kernel_size=2, stride=2)
         )
 
 
@@ -44,7 +44,9 @@ class ExampleModel(nn.Module):
         # There is no need for softmax activation function, as this is
         # included with nn.CrossEntropyLoss
         self.classifier = nn.Sequential(
-            nn.Linear(self.num_output_features, num_classes),
+            nn.Linear(self.num_output_features, num_units_dense_Relu),
+            nn.ReLU(),
+            nn.Linear(num_units_dense_Relu, num_classes)
         )
 
     def forward(self, x):
