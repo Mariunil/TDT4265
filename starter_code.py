@@ -37,7 +37,7 @@ class ExampleModel(nn.Module):
 
 
         # The output of feature_extractor will be [batch_size, num_filters, 16, 16]
-        self.num_output_features = 32*16*16
+        self.num_output_features = 8*16*16
         # Initialize our last fully connected layer
         # Inputs all extracted features from the convolutional layers
         # Outputs num_classes predictions, 1 for each class.
@@ -56,7 +56,7 @@ class ExampleModel(nn.Module):
 
         # Run image through convolutional layers
         x = self.feature_extractor(x)
-        print(x.shape)
+        #print(x.shape)
         # Reshape our input to (batch_size, num_output_features)
         x = x.view(-1, self.num_output_features)
         # Forward pass through the fully-connected layers.
