@@ -5,7 +5,7 @@ from torch import nn
 from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 
-#This model does not utilize SGD, but utilizes insted the adam optimizer
+#This model utlizies both the adam optimizer and SGD
 
 class ExampleModel(nn.Module):
 
