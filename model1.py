@@ -65,6 +65,18 @@ class ExampleModel(nn.Module):
         x = self.classifier(x)
         return x
 
+class MultipleOptimizer(object):
+    def __init__(self, *op):
+        self.optimizers = op
+
+    def zero_grad(self):
+        for op in self.optimizers:
+            op.zero_grad()
+
+    def step(self):
+        for op in self.optimizers:
+            op.step()
+
 class Trainer:
 
     def __init__(self):
@@ -88,7 +100,8 @@ class Trainer:
         self.model = to_cuda(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
+        self.optimizer = MultipleOptimizer(torch.optim.Adam(self.model.parameters(), self.learning_rate),
+                                           torch.optim.SGD(self.model.parameters(), self.learning_rate))
 
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = load_cifar10(self.batch_size)
@@ -180,6 +193,8 @@ class Trainer:
                     if self.should_early_stop():
                         print("Early stopping.")
                         return
+
+
 
 
 if __name__ == "__main__":
