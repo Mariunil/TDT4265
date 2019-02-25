@@ -9,6 +9,8 @@ from utils import to_cuda, compute_loss_and_accuracy
 # SGD, L2 ( baked into SGD)
 # Learning rate annealed
 
+#github: https://github.com/Mariunil/TDT4265.git
+
 class ExampleModel(nn.Module):
 
     def __init__(self, image_channels, num_classes):
