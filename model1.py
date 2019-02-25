@@ -93,7 +93,8 @@ class Trainer:
         self.batch_size = 64
         self.learning_rate = 5e-2
         self.momentum = 0.4
-        self.L2 = 0.001
+        self.L2 = 0
+        self.nesterov = True
         self.early_stop_count = 4
         self.should_anneal = True
         self.T = 5
@@ -110,7 +111,11 @@ class Trainer:
         self.model = to_cuda(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = MultipleOptimizer(torch.optim.SGD(self.model.parameters(), self.learning_rate, self.momentum, self.L2))
+        self.optimizer = MultipleOptimizer(torch.optim.SGD(self.model.parameters(),
+                                                           self.learning_rate,
+                                                           self.momentum,
+                                                           self.L2,
+                                                           self.nesterov))
 
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = load_cifar10(self.batch_size)
