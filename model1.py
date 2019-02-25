@@ -96,7 +96,7 @@ class Trainer:
         self.should_anneal = True
         self.T = 5
         self.t = 0
-        self.a0 = 5e-1
+        self.a0 = 9e-1
 
         # Architecture
 
@@ -206,6 +206,7 @@ class Trainer:
 
 
                 if batch_it % self.validation_check == 0:
+                    self.t += 1
                     self.validation_epoch()
                     # Check early stopping criteria.
                     if self.should_early_stop():
@@ -213,7 +214,7 @@ class Trainer:
                         return
                     if self.should_anneal:
                         learning_rate = self.annealing_learning_rate()
-                    self.t += 1
+
 
 
 
