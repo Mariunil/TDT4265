@@ -24,11 +24,11 @@ class ExampleModel(nn.Module):
         self.feature_extractor = nn.Sequential(
             nn.Conv2d( in_channels=image_channels,  out_channels=num_filters, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Conv2d( in_channels=num_filters,  out_channels=num_filters*2, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2)
+            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Conv2d( in_channels=num_filters*2,  out_channels=num_filters*4, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
