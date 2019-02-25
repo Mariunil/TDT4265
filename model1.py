@@ -164,7 +164,7 @@ class Trainer:
         return True
 
     def annealing_learning_rate(self):
-        rato = self.t/self.T
+        ratio = self.t/self.T
         self.learning_rate = self.a0/1+ratio
 
 
