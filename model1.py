@@ -93,6 +93,7 @@ class Trainer:
         self.batch_size = 64
         self.learning_rate = 5e-2
         self.momentum = 0.4
+        self.L2 = 0.2
         self.early_stop_count = 4
         self.should_anneal = True
         self.T = 5
