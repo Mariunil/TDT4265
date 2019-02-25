@@ -183,6 +183,7 @@ class Trainer:
         if self.should_anneal:
             self.learning_rate = self.a0
 
+        self.TRAINING_STEP.append(training_step)
         self.validation_epoch()
         for epoch in range(self.epochs):
             print("Starting epoch", epoch+1)
