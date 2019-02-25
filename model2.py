@@ -85,7 +85,7 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
          # Define hyperparameters
-        self.epochs = 11
+        self.epochs = 10
         self.batch_size = 64
         self.learning_rate = 0.001
         self.momentum = 0
@@ -140,11 +140,12 @@ class Trainer:
         validation_loss, validation_acc = compute_loss_and_accuracy(self.dataloader_val, self.model, self.loss_criterion)
         self.VALIDATION_ACC.append(validation_acc)
         self.VALIDATION_LOSS.append(validation_loss)
-        print("Current validation loss:", validation_loss, " Accuracy:", validation_acc)
+
         # Compute for testing set
         test_loss, test_acc = compute_loss_and_accuracy( self.dataloader_test, self.model, self.loss_criterion)
         self.TEST_ACC.append(test_acc)
         self.TEST_LOSS.append(test_loss)
+        print("Current validation loss:", validation_loss, " Accuracy:", validation_acc, "Test Accuracy:", test_acc)
 
         self.model.train()
 
@@ -245,7 +246,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_LOSS, label="Training loss")
     plt.plot(trainer.TRAINING_STEP, trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_loss_model1.png"))
+    plt.savefig(os.path.join("plots", "final_loss_model2.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
@@ -254,7 +255,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_ACC, label="Training Accuracy")
     plt.plot(trainer.TRAINING_STEP, trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_accuracy_model1.png"))
+    plt.savefig(os.path.join("plots", "final_accuracy_model2.png"))
     plt.show()
 
     #print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
