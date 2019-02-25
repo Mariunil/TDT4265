@@ -6,8 +6,7 @@ from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 
 # SGD optimizer
-
-#github: https://github.com/Mariunil/TDT4265.git
+# github: https://github.com/Mariunil/TDT4265.git
 
 class ExampleModel(nn.Module):
 
@@ -121,6 +120,8 @@ class Trainer:
         self.validation_check = len(self.dataloader_train) // 2
 
         # Tracking variables
+        self.training_step = 0
+        self.TRAINING_STEP = []
         self.VALIDATION_LOSS = []
         self.TEST_LOSS = []
         self.TRAIN_LOSS = []
@@ -187,6 +188,7 @@ class Trainer:
             print("Starting epoch", epoch+1)
             # Perform a full pass through all the training samples
             for batch_it, (X_batch, Y_batch) in enumerate(self.dataloader_train):
+                self.training_step += 1
                 # X_batch is the CIFAR10 images. Shape: [batch_size, 3, 32, 32]
                 # Y_batch is the CIFAR10 image label. Shape: [batch_size]
                 # Transfer images / labels to GPU VRAM, if possible
@@ -211,6 +213,7 @@ class Trainer:
 
 
                 if batch_it % self.validation_check == 0:
+                    self.TRAINING_STEP.append(self.training_step)
                     self.validation_epoch()
                     # Check early stopping criteria.
                     if self.should_early_stop():
@@ -223,8 +226,6 @@ class Trainer:
 
 
 
-
-
 if __name__ == "__main__":
     trainer = Trainer()
     trainer.train()
@@ -233,21 +234,21 @@ if __name__ == "__main__":
     # Save plots and show them
     plt.figure(figsize=(12, 8))
     plt.title("Cross Entropy Loss")
-    plt.plot(trainer.VALIDATION_LOSS, label="Validation loss")
-    plt.plot(trainer.TRAIN_LOSS, label="Training loss")
-    plt.plot(trainer.TEST_LOSS, label="Testing Loss")
+    plt.plot(trainer.TRAINING_STEP, trainer.VALIDATION_LOSS, label="Validation loss")
+    plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_LOSS, label="Training loss")
+    plt.plot(trainer.TRAINING_STEP, trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
     plt.savefig(os.path.join("plots", "final_loss_model1.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
     plt.title("Accuracy")
-    plt.plot(trainer.VALIDATION_ACC, label="Validation Accuracy")
-    plt.plot(trainer.TRAIN_ACC, label="Training Accuracy")
-    plt.plot(trainer.TEST_ACC, label="Testing Accuracy")
+    plt.plot(trainer.TRAINING_STEP, trainer.VALIDATION_ACC, label="Validation Accuracy")
+    plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_ACC, label="Training Accuracy")
+    plt.plot(trainer.TRAINING_STEP, trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
     plt.savefig(os.path.join("plots", "final_accuracy_model1.png"))
     plt.show()
 
-    print("(Model 1) Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
-    print("(Model 1) Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])
+    print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
+    print("Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])

@@ -119,6 +119,8 @@ class Trainer:
         self.validation_check = len(self.dataloader_train) // 2
 
         # Tracking variables
+        self.training_step = 0
+        self.TRAINING_STEP = []
         self.VALIDATION_LOSS = []
         self.TEST_LOSS = []
         self.TRAIN_LOSS = []
@@ -185,6 +187,7 @@ class Trainer:
             print("Starting epoch", epoch+1)
             # Perform a full pass through all the training samples
             for batch_it, (X_batch, Y_batch) in enumerate(self.dataloader_train):
+                self.training_Step += 1
                 # X_batch is the CIFAR10 images. Shape: [batch_size, 3, 32, 32]
                 # Y_batch is the CIFAR10 image label. Shape: [batch_size]
                 # Transfer images / labels to GPU VRAM, if possible
@@ -209,6 +212,7 @@ class Trainer:
 
 
                 if batch_it % self.validation_check == 0:
+                    self.TRAINING_STEP.append(self.training_step)
                     self.validation_epoch()
                     # Check early stopping criteria.
                     if self.should_early_stop():
@@ -248,4 +252,4 @@ if __name__ == "__main__":
     plt.show()
 
     print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
-    print("(Model 2) Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])
+    print("Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])
