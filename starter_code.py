@@ -156,6 +156,7 @@ class Trainer:
         self.TRAINING_STEP.append(self.training_step)
         self.validation_epoch()
         for epoch in range(self.epochs):
+            print("Starting epoch", epoch+1)
             # Perform a full pass through all the training samples
             for batch_it, (X_batch, Y_batch) in enumerate(self.dataloader_train):
                 self.training_step += 1
