@@ -94,7 +94,7 @@ class Trainer:
         self.L2 = 0.001
         self.nesterov = False
         self.early_stop_count = 4
-        self.should_anneal = True
+        self.should_anneal = False
         self.T = 5
         self.t = 0
         self.a0 = 5e-1
@@ -109,9 +109,9 @@ class Trainer:
         self.model = to_cuda(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = MultipleOptimizer(torch.optim.RMSprop(self.model.parameters(),
-                                                              self.learning_rate,
-                                                              weight_decay = self.L2))
+        self.optimizer = MultipleOptimizer(torch.optim.Adam(self.model.parameters(),
+                                                            self.learning_rate,
+                                                            weight_decay = self.L2))
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = load_cifar10(self.batch_size)
 
@@ -181,6 +181,7 @@ class Trainer:
 
         self.validation_epoch()
         for epoch in range(self.epochs):
+            print("Starting epoch", epoch+1)
             # Perform a full pass through all the training samples
             for batch_it, (X_batch, Y_batch) in enumerate(self.dataloader_train):
                 # X_batch is the CIFAR10 images. Shape: [batch_size, 3, 32, 32]
@@ -215,6 +216,7 @@ class Trainer:
                     if self.should_anneal:
                         self.t += 1
                         self.annealing_learning_rate()
+
 
 
 
