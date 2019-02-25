@@ -7,7 +7,8 @@ from utils import to_cuda, compute_loss_and_accuracy
 
 # Mutiple optimizers class active.
 # SGD, L2 ( baked into SGD)
-# Learning rate annealed
+# Learning rate annealed, a0 = 1e-2
+#removed 1 layer
 
 #github: https://github.com/Mariunil/TDT4265.git
 
@@ -27,10 +28,6 @@ class ExampleModel(nn.Module):
         # Define the convolutional layers
         self.feature_extractor = nn.Sequential(
             nn.Conv2d( in_channels=image_channels,  out_channels=num_filters, kernel_size=5, stride=1, padding=2),
-            nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-
-            nn.Conv2d( in_channels=num_filters,  out_channels=num_filters*2, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
 
@@ -96,7 +93,7 @@ class Trainer:
         self.should_anneal = True
         self.T = 5
         self.t = 0
-        self.a0 = 5e-1
+        self.a0 = 1e-2
 
         # Architecture
 
