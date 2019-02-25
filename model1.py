@@ -236,7 +236,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAIN_LOSS, label="Training loss")
     plt.plot(trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_loss.png"))
+    plt.savefig(os.path.join("plots", "final_loss_model1.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
@@ -245,7 +245,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAIN_ACC, label="Training Accuracy")
     plt.plot(trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_accuracy.png"))
+    plt.savefig(os.path.join("plots", "final_accuracy_model1.png"))
     plt.show()
 
     print("(Model 1) Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])

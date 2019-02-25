@@ -89,7 +89,7 @@ class Trainer:
          # Define hyperparameters
         self.epochs = 100
         self.batch_size = 64
-        self.learning_rate = 5e-4
+        self.learning_rate = 1
         self.momentum = 0.4
         self.L2 = 0.001
         self.nesterov = False
@@ -232,7 +232,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAIN_LOSS, label="Training loss")
     plt.plot(trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_loss.png"))
+    plt.savefig(os.path.join("plots", "final_loss_model2.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
@@ -241,8 +241,8 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAIN_ACC, label="Training Accuracy")
     plt.plot(trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_accuracy.png"))
+    plt.savefig(os.path.join("plots", "final_accuracy_model2.png"))
     plt.show()
 
-    print("(Model 2) Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
+    print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
     print("(Model 2) Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])
