@@ -93,7 +93,7 @@ class Trainer:
         self.L2 = 0.001
         self.nesterov = False
         self.early_stop_count = 4
-        self.should_anneal = False
+        self.should_anneal = True
         self.T = 5
         self.t = 0
         self.a0 = 5e-2
