@@ -5,7 +5,6 @@ from torch import nn
 from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 
-# SGD optimizer
 # github: https://github.com/Mariunil/TDT4265.git
 
 class ExampleModel(nn.Module):
@@ -25,11 +24,9 @@ class ExampleModel(nn.Module):
         self.feature_extractor = nn.Sequential(
             nn.Conv2d( in_channels=image_channels,  out_channels=num_filters, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Conv2d( in_channels=num_filters,  out_channels=num_filters*2, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Conv2d( in_channels=num_filters*2,  out_channels=num_filters*4, kernel_size=5, stride=1, padding=2),
             nn.ReLU(),
@@ -38,7 +35,7 @@ class ExampleModel(nn.Module):
 
 
         # The output of feature_extractor will be [batch_size, num_filters, 16, 16]
-        self.num_output_features = 8*16*16
+        self.num_output_features = 128*16*16
         # Initialize our last fully connected layer
         # Inputs all extracted features from the convolutional layers
         # Outputs num_classes predictions, 1 for each class.
@@ -86,17 +83,17 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
          # Define hyperparameters
-        self.epochs = 100
+        self.epochs = 11
         self.batch_size = 64
         self.learning_rate = 5e-2
-        self.momentum = 0.4
+        self.momentum = 0.9
         self.L2 = 0.001
         self.nesterov = False
         self.early_stop_count = 4
         self.should_anneal = True
         self.T = 5
         self.t = 0
-        self.a0 = 5e-1
+        self.a0 = 5e-2
 
         # Architecture
 
@@ -183,7 +180,7 @@ class Trainer:
         if self.should_anneal:
             self.learning_rate = self.a0
 
-        self.TRAINING_STEP.append(training_step)
+        self.TRAINING_STEP.append(self.training_step)
         self.validation_epoch()
         for epoch in range(self.epochs):
             print("Starting epoch", epoch+1)
@@ -230,6 +227,12 @@ class Trainer:
                         self.t += 1
                         self.annealing_learning_rate()
 
+        print("Early stopping at epoch", epoch)
+        print("Final validation_loss", self.VALIDATION_LOSS[-1])
+        print("Final training loss", self.TRAIN_LOSS[-1])
+        print("Final validation accuracy", self.VALIDATION_ACC[-1])
+        print("Final test accuracy", self.TEST_ACC[-1])
+        print("Final training accuracy", self.TRAIN_ACC[-1])
 
 
 if __name__ == "__main__":
@@ -256,5 +259,5 @@ if __name__ == "__main__":
     plt.savefig(os.path.join("plots", "final_accuracy_model1.png"))
     plt.show()
 
-    print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
-    print("Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])
+    #print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
+    #print("Final validation accuracy:", trainer.VALIDATION_ACC[-trainer.early_stop_count])
