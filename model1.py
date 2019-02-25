@@ -91,12 +91,13 @@ class Trainer:
          # Define hyperparameters
         self.epochs = 100
         self.batch_size = 64
-        self.learning_rate = 1e-4       #5e-2
+        self.learning_rate = 5e-2
+        self.momentum = 0.9
         self.early_stop_count = 4
-        self.should_anneal = False
+        self.should_anneal = True
         self.T = 5
         self.t = 0
-        self.a0 = 9e-2
+        self.a0 = 1e-1
 
         # Architecture
 
@@ -108,7 +109,7 @@ class Trainer:
         self.model = to_cuda(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = MultipleOptimizer(torch.optim.SGD(self.model.parameters(), self.learning_rate))
+        self.optimizer = MultipleOptimizer(torch.optim.SGD(self.model.parameters(), self.learning_rate, self.momentum))
 
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = load_cifar10(self.batch_size)
