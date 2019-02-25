@@ -93,7 +93,7 @@ class Trainer:
         self.batch_size = 64
         self.learning_rate = 5e-2
         self.momentum = 0.4
-        self.L2 = 0.2
+        self.L2 = 0.001
         self.early_stop_count = 4
         self.should_anneal = True
         self.T = 5
@@ -207,13 +207,13 @@ class Trainer:
 
 
                 if batch_it % self.validation_check == 0:
-                    self.t += 2
                     self.validation_epoch()
                     # Check early stopping criteria.
                     if self.should_early_stop():
-                        print("Early stopping.")
+                        print("Early stopping at epoch", epochs)
                         return
                     if self.should_anneal:
+                        self.t += 2
                         learning_rate = self.annealing_learning_rate()
 
 
