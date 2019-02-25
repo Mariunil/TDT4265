@@ -89,7 +89,7 @@ class Trainer:
          # Define hyperparameters
         self.epochs = 100
         self.batch_size = 64
-        self.learning_rate = 5e-2
+        self.learning_rate = 5e-1
         self.momentum = 0.4
         self.L2 = 0.001
         self.nesterov = False
