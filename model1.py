@@ -96,7 +96,7 @@ class Trainer:
         self.should_anneal = True
         self.T = 5
         self.t = 0
-        self.a0 = 5e-1
+        self.a0 = 1e-1
 
         # Architecture
 
