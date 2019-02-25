@@ -5,8 +5,9 @@ from torch import nn
 from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 
-# Mutiple optimizers class active.
-# github: https://github.com/Mariunil/TDT4265.git
+# SGD optimizer
+
+#github: https://github.com/Mariunil/TDT4265.git
 
 class ExampleModel(nn.Module):
 
@@ -89,14 +90,14 @@ class Trainer:
         self.epochs = 100
         self.batch_size = 64
         self.learning_rate = 5e-2
-        self.momentum = 0.2
-        self.L2 = 0.001
-        self.nesterov = False
+        self.momentum = 0.4
+        self.L2 = 0
+        self.nesterov = True
         self.early_stop_count = 4
         self.should_anneal = True
         self.T = 5
         self.t = 0
-        self.a0 = 9e-1
+        self.a0 = 5e-1
 
         # Architecture
 
@@ -214,9 +215,10 @@ class Trainer:
                     if self.should_early_stop():
                         print("Early stopping at epoch", epochs)
                         return
+
                     if self.should_anneal:
-                        self.t += 2
-                        learning_rate = self.annealing_learning_rate()
+                        self.t += 1
+                        self.annealing_learning_rate()
 
 
 
