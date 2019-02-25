@@ -6,10 +6,7 @@ from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 
 # Mutiple optimizers class active.
-# SGD, L2 ( baked into SGD)
-# Learning rate annealed, a0 = 1e-2
-
-#github: https://github.com/Mariunil/TDT4265.git
+# github: https://github.com/Mariunil/TDT4265.git
 
 class ExampleModel(nn.Module):
 
@@ -92,8 +89,8 @@ class Trainer:
         self.epochs = 100
         self.batch_size = 64
         self.learning_rate = 5e-2
-        self.momentum = 0.4
-        self.L2 = 0
+        self.momentum = 0
+        self.L2 = 0.001
         self.nesterov = True
         self.early_stop_count = 4
         self.should_anneal = True
