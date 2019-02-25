@@ -213,7 +213,7 @@ class Trainer:
                     self.validation_epoch()
                     # Check early stopping criteria.
                     if self.should_early_stop():
-                        print("Early stopping at epoch", epochs)
+                        print("Early stopping at epoch", epoch)
                         return
 
                     if self.should_anneal:
