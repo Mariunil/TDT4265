@@ -219,6 +219,11 @@ class Trainer:
                     # Check early stopping criteria.
                     if self.should_early_stop():
                         print("Early stopping at epoch", epoch)
+                        print("Final validation_loss", self.VALIDATION_LOSS[-self.early_stop_count])
+                        print("Final training loss", self.TRAIN_LOSS[-self.early_stop_count])
+                        print("Final validation accuracy", self.VALIDATION_ACC[-self.early_stop_count])
+                        print("Final test accuracy", self.TEST_ACC[-self.early_stop_count])
+                        print("Final training accuracy", self.TRAIN_ACC[-self.early_stop_count])
                         return
 
                     if self.should_anneal:

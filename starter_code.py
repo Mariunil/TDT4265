@@ -96,6 +96,8 @@ class Trainer:
         self.validation_check = len(self.dataloader_train) // 2
 
         # Tracking variables
+        self.training_step = 0
+        self.TRAINING_STEP = []
         self.VALIDATION_LOSS = []
         self.TEST_LOSS = []
         self.TRAIN_LOSS = []
@@ -151,11 +153,12 @@ class Trainer:
         Trains the model for [self.epochs] epochs.
         """
         # Track initial loss/accuracy
-
+        self.TRAINING_STEP.append(self.training_step)
         self.validation_epoch()
         for epoch in range(self.epochs):
             # Perform a full pass through all the training samples
             for batch_it, (X_batch, Y_batch) in enumerate(self.dataloader_train):
+                self.training_step += 1
                 # X_batch is the CIFAR10 images. Shape: [batch_size, 3, 32, 32]
                 # Y_batch is the CIFAR10 image label. Shape: [batch_size]
                 # Transfer images / labels to GPU VRAM, if possible
@@ -177,10 +180,17 @@ class Trainer:
                 self.optimizer.zero_grad()
                  # Compute loss/accuracy for all three datasets.
                 if batch_it % self.validation_check == 0:
+                    self.TRAINING_STEP.append(self.training_step)
                     self.validation_epoch()
                     # Check early stopping criteria.
                     if self.should_early_stop():
                         print("Early stopping.")
+                        print("Early stopping at epoch", epoch)
+                        print("Final validation_loss", self.VALIDATION_LOSS[-self.early_stop_count])
+                        print("Final training loss", self.TRAIN_LOSS[-self.early_stop_count])
+                        print("Final validation accuracy", self.VALIDATION_ACC[-self.early_stop_count])
+                        print("Final test accuracy", self.TEST_ACC[-self.early_stop_count])
+                        print("Final training accuracy", self.TRAIN_ACC[-self.early_stop_count])
                         return
 
 
@@ -192,18 +202,18 @@ if __name__ == "__main__":
     # Save plots and show them
     plt.figure(figsize=(12, 8))
     plt.title("Cross Entropy Loss")
-    plt.plot(trainer.VALIDATION_LOSS, label="Validation loss")
-    plt.plot(trainer.TRAIN_LOSS, label="Training loss")
-    plt.plot(trainer.TEST_LOSS, label="Testing Loss")
+    plt.plot(trainer.TRAINING_STEP, trainer.VALIDATION_LOSS, label="Validation loss")
+    plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_LOSS, label="Training loss")
+    plt.plot(trainer.TRAINING_STEP, trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
     plt.savefig(os.path.join("plots", "final_loss.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
     plt.title("Accuracy")
-    plt.plot(trainer.VALIDATION_ACC, label="Validation Accuracy")
-    plt.plot(trainer.TRAIN_ACC, label="Training Accuracy")
-    plt.plot(trainer.TEST_ACC, label="Testing Accuracy")
+    plt.plot(trainer.TRAINING_STEP, trainer.VALIDATION_ACC, label="Validation Accuracy")
+    plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_ACC, label="Training Accuracy")
+    plt.plot(trainer.TRAINING_STEP, trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
     plt.savefig(os.path.join("plots", "final_accuracy.png"))
     plt.show()
