@@ -168,7 +168,7 @@ class Trainer:
                     counter += 1
                     self.TRAINING_STEP.append(self.training_step)
                     self.validation_epoch()
-                    self.epoch_list.append(counter*0.5)
+                    self.epoch_list.append( counter*(1/3) )         #three datapoints per epoch
                     # Check early stopping criteria.
                     if self.should_early_stop():
                         print("Early stopping at epoch", epoch)
