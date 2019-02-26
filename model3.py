@@ -9,9 +9,7 @@ from utils import to_cuda, compute_loss_and_accuracy
 
 class ExampleModel(nn.Module):
 
-    def __init__(self,
-                 image_channels,
-                 num_classes):
+    def __init__(self, image_channels, num_classes):
         """
             Is called when model is initialized.
             Args:
@@ -111,18 +109,18 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
         # Define hyperparameters
-        self.epochs = 100
+        self.epochs = 10
         self.batch_size = 64
         self.learning_rate = 0.0005
         self.early_stop_count = 4
         #Parametere til annealing learning rate
-        self.a0 = 5e-1
-        self.t = 1
-        self.T = 5
+        self.a0 = 0.001
+        self.t = 0
+        self.T = 2
         self.should_anneal = False
         #parametere inn til sgd optim
         self.momentum = 0
-        self.L2= 0.001
+        self.L2= 0
         self.nesterov = False
 
         # Architecture
@@ -135,7 +133,7 @@ class Trainer:
         self.model = to_cuda(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate, weight_decay = self.L2)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
 
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = load_cifar10(self.batch_size)
@@ -160,24 +158,17 @@ class Trainer:
         self.model.eval()
 
         # Compute for training set
-        train_loss, train_acc = compute_loss_and_accuracy(
-            self.dataloader_train, self.model, self.loss_criterion
-        )
+        train_loss, train_acc = compute_loss_and_accuracy( self.dataloader_train, self.model, self.loss_criterion)
         self.TRAIN_ACC.append(train_acc)
         self.TRAIN_LOSS.append(train_loss)
 
         # Compute for validation set
-        validation_loss, validation_acc = compute_loss_and_accuracy(
-            self.dataloader_val, self.model, self.loss_criterion
-        )
+        validation_loss, validation_acc = compute_loss_and_accuracy(self.dataloader_val, self.model, self.loss_criterion)
         self.VALIDATION_ACC.append(validation_acc)
         self.VALIDATION_LOSS.append(validation_loss)
 
-
         # Compute for testing set
-        test_loss, test_acc = compute_loss_and_accuracy(
-            self.dataloader_test, self.model, self.loss_criterion
-        )
+        test_loss, test_acc = compute_loss_and_accuracy( self.dataloader_test, self.model, self.loss_criterion)
         self.TEST_ACC.append(test_acc)
         self.TEST_LOSS.append(test_loss)
         print("Current validation loss:", validation_loss, " Accuracy:", validation_acc, "test accuracy: ", self.TEST_ACC[-1])
@@ -268,7 +259,7 @@ class Trainer:
 if __name__ == "__main__":
     trainer = Trainer()
     trainer.train()
-    print()
+
     os.makedirs("plots", exist_ok=True)
     # Save plots and show them
     plt.figure(figsize=(12, 8))
