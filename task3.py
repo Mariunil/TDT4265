@@ -37,7 +37,7 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
          # Define hyperparameters
-        self.epochs = 10
+        self.epochs = 5
         self.batch_size = 32
         self.learning_rate = 0.0005
         self.momentum = 0
@@ -67,6 +67,7 @@ class Trainer:
         self.validation_check = len(self.dataloader_train) // 2
 
         # Tracking variables
+        self.epoch_list = []
         self.training_step = 0
         self.TRAINING_STEP = []
         self.VALIDATION_LOSS = []
@@ -131,8 +132,10 @@ class Trainer:
         if self.should_anneal:
             self.learning_rate = self.a0
 
+        counter = 0
         self.TRAINING_STEP.append(self.training_step)
         self.validation_epoch()
+        self.epoch_list.append(0)
         for epoch in range(self.epochs):
             print("Starting epoch", epoch+1)
             # Perform a full pass through all the training samples
@@ -162,8 +165,10 @@ class Trainer:
 
 
                 if batch_it % self.validation_check == 0:
+                    counter += 1
                     self.TRAINING_STEP.append(self.training_step)
                     self.validation_epoch()
+                    self.epoch_list.append(counter*0.5)
                     # Check early stopping criteria.
                     if self.should_early_stop():
                         print("Early stopping at epoch", epoch)
@@ -194,18 +199,18 @@ if __name__ == "__main__":
     # Save plots and show them
     plt.figure(figsize=(12, 8))
     plt.title("Cross Entropy Loss")
-    plt.plot(trainer.TRAINING_STEP, trainer.VALIDATION_LOSS, label="Validation loss")
-    plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_LOSS, label="Training loss")
-    plt.plot(trainer.TRAINING_STEP, trainer.TEST_LOSS, label="Testing Loss")
+    plt.plot(trainer.epoch_list, trainer.VALIDATION_LOSS, label="Validation loss")
+    plt.plot(trainer.epoch_list, trainer.TRAIN_LOSS, label="Training loss")
+    plt.plot(trainer.epoch_list, trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
     plt.savefig(os.path.join("plots", "final_loss_task3.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
     plt.title("Accuracy")
-    plt.plot(trainer.TRAINING_STEP, trainer.VALIDATION_ACC, label="Validation Accuracy")
-    plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_ACC, label="Training Accuracy")
-    plt.plot(trainer.TRAINING_STEP, trainer.TEST_ACC, label="Testing Accuracy")
+    plt.plot(trainer.epoch_list, trainer.VALIDATION_ACC, label="Validation Accuracy")
+    plt.plot(trainer.epoch_list, trainer.TRAIN_ACC, label="Training Accuracy")
+    plt.plot(trainer.epoch_list, trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
     plt.savefig(os.path.join("plots", "final_accuracy_task3.png"))
     plt.show()
