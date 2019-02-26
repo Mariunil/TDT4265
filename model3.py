@@ -5,10 +5,8 @@ import torch
 from torch import nn
 from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
-#endring for å teste git
-#ny endring git test
-#hallodjkhfskj
-#ny kommentarhgjgjh
+
+
 class ExampleModel(nn.Module):
 
     def __init__(self,
@@ -113,10 +111,10 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
         # Define hyperparameters
-        self.epochs = 11
+        self.epochs = 100
         self.batch_size = 64
         self.learning_rate = 0.0005
-        self.early_stop_count = 3
+        self.early_stop_count = 4
         #Parametere til annealing learning rate
         self.a0 = 5e-1
         self.t = 1
