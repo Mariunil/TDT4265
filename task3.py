@@ -1,16 +1,17 @@
 import os
 import matplotlib.pyplot as plt
 import torch
+import torchvision
 from torch import nn
 from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 
 # github: https://github.com/Mariunil/TDT4265.git
 
-class Model(nn.Module):
+class Model( nn.Module ):
 
-    def __init__( self ):
-        super ().__init__ ()
+    def __init__( self, image_channels, num_classes ):
+        super().__init__()
         self.model = torchvision.models.resnet18( pretrained = True )
         self.model.fc = nn.Linear( 512*4 , 10 )      # No need to apply softmax ,
                                                       # as this is done in nn.CrossEntropyloss
@@ -21,7 +22,6 @@ class Model(nn.Module):
             param.requires_grad = True               # layer
         for param in self.model.layer4.parameters(): # Unfreeze the last 5 c on vo lu ti on al
             param.requires_grad = True               # layers
-
 
 
     def forward(self, x):
@@ -54,7 +54,7 @@ class Trainer:
         # Since we are doing multi-class classification, we use the CrossEntropyLoss
         self.loss_criterion = nn.CrossEntropyLoss()
         # Initialize the mode
-        self.model = ExampleModel(image_channels=3, num_classes=10)
+        self.model = Model(image_channels=3, num_classes=10)
         # Transfer model to GPU VRAM, if possible.
         self.model = to_cuda(self.model)
 
@@ -198,7 +198,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_LOSS, label="Training loss")
     plt.plot(trainer.TRAINING_STEP, trainer.TEST_LOSS, label="Testing Loss")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_loss_model2.png"))
+    plt.savefig(os.path.join("plots", "final_loss_task3.png"))
     plt.show()
 
     plt.figure(figsize=(12, 8))
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     plt.plot(trainer.TRAINING_STEP, trainer.TRAIN_ACC, label="Training Accuracy")
     plt.plot(trainer.TRAINING_STEP, trainer.TEST_ACC, label="Testing Accuracy")
     plt.legend()
-    plt.savefig(os.path.join("plots", "final_accuracy_model2.png"))
+    plt.savefig(os.path.join("plots", "final_accuracy_task3.png"))
     plt.show()
 
     #print("Final test accuracy:", trainer.TEST_ACC[-trainer.early_stop_count])
