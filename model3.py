@@ -115,15 +115,15 @@ class Trainer:
         # Define hyperparameters
         self.epochs = 11
         self.batch_size = 64
-        self.learning_rate = 5e-2
+        self.learning_rate = 0.0005
         self.early_stop_count = 3
         #Parametere til annealing learning rate
         self.a0 = 5e-1
         self.t = 1
         self.T = 5
-        self.should_anneal = True
+        self.should_anneal = False
         #parametere inn til sgd optim
-        self.momentum = 0.4
+        self.momentum = 0
         self.L2= 0.001
         self.nesterov = False
 
