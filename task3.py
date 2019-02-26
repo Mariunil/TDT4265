@@ -38,7 +38,7 @@ class Trainer:
         """
          # Define hyperparameters
         self.epochs = 10
-        self.batch_size = 64
+        self.batch_size = 32
         self.learning_rate = 0.0005
         self.momentum = 0
         self.L2 = 0.001
@@ -59,7 +59,7 @@ class Trainer:
         self.model = to_cuda(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate, weight_decay = self.L2)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), self.learning_rate)
 
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = load_cifar10(self.batch_size)
