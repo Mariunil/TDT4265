@@ -195,6 +195,9 @@ if __name__ == "__main__":
     trainer = Trainer()
     trainer.train()
 
+    with open('Failed.py', 'w') as file:
+        file.write('whatever')
+
     os.makedirs("plots", exist_ok=True)
     # Save plots and show them
     plt.figure(figsize=(12, 8))
