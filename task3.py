@@ -216,10 +216,10 @@ if __name__ == "__main__":
     file5.close()
 
     file6 = open("task3_val_loss.txt", "w")
-    json.dump(trainer.VALDIATION_LOSS, file6)
+    json.dump(trainer.VALIDIATION_LOSS, file6)
     file6.close()
 
-    
+
     os.makedirs("plots", exist_ok=True)
     # Save plots and show them
     plt.figure(figsize=(12, 8))
