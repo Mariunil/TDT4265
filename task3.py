@@ -195,6 +195,31 @@ if __name__ == "__main__":
     trainer = Trainer()
     trainer.train()
 
+    file1 = open("task3_test_acc.txt", "w")
+    json.dump(trainer.TEST_ACC, file1)
+    file1.close()
+
+    file2 = open("task3_val_acc.txt", "w")
+    json.dump(trainer.VALIDATION_ACC, file2)
+    file2.close()
+
+    file3 = open("task3_train_acc.txt", "w")
+    json.dump(trainer.TRAIN_ACC, file3)
+    file3.close()
+
+    file4 = open("task3_test_loss.txt", "w")
+    json.dump(trainer.TEST_LOSS, file4)
+    file4.close()
+
+    file5 = open("task3_train_loss.txt", "w")
+    json.dump(trainer.TRAIN_LOSS, file5)
+    file5.close()
+
+    file6 = open("task3_val_loss.txt", "w")
+    json.dump(trainer.VALDIATION_LOSS, file6)
+    file6.close()
+
+    
     os.makedirs("plots", exist_ok=True)
     # Save plots and show them
     plt.figure(figsize=(12, 8))

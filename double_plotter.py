@@ -13,20 +13,26 @@ if __name__ == "__main__":
     trainer = task3.Trainer()
     trainer.train()
 
-    file1 = open("resnet_test_acc.txt, w")
-    file1.write(task3.Trainer.TEST_ACC)
+    file1 = open("task3_test_acc.txt", "w")
+    json.dump(trainer.TEST_ACC, file1)
+    file1.close()
 
-    file2 = open("resnet_val_acc.txt, w")
-    file2.write(task3.Trainer.VALIDATION_ACC)
+    file2 = open("task3_val_acc.txt", "w")
+    json.dump(trainer.VALIDATION_ACC, file2)
+    file2.close()
 
-    file3 = open("resnet_train_acc.txt, w")
-    file3.write(task3.Trainer.TRAIN_ACC)
+    file3 = open("task3_train_acc.txt", "w")
+    json.dump(trainer.TRAIN_ACC, file3)
+    file3.close()
 
-    file4 = open("resnet_test_loss.txt, w")
-    file4.write(task3.Trainer.TEST_LOSS)
+    file4 = open("task3_test_loss.txt", "w")
+    json.dump(trainer.TEST_LOSS, file4)
+    file4.close()
 
-    file5 = open("resnet_train_loss.txt, w")
-    file5.write(task3.Trainer.TRAIN_LOSS)
+    file5 = open("task3_train_loss.txt", "w")
+    json.dump(trainer.TRAIN_LOSS, file5)
+    file5.close()
 
-    file6 = open("resnet_val_loss.txt, w")
-    file6.write(task3.Trainer.VALDIATION_LOSS)
+    file6 = open("task3_val_loss.txt", "w")
+    json.dump(trainer.VALDIATION_LOSS, file6)
+    file6.close()

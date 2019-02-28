@@ -34,5 +34,5 @@ if __name__ == "__main__":
     file5.close()
 
     file6 = open("model3_val_loss.txt", "w")
-    json.dump(trainer.VALDIATION_LOSS, file6)
+    json.dump(trainer.VALIDATION_LOSS, file6)
     file6.close()
