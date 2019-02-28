@@ -9,7 +9,7 @@ from utils import to_cuda, compute_loss_and_accuracy
 # github: https://github.com/Mariunil/TDT4265.git
 
 class Model( nn.Module ):
-
+    
     def __init__( self, image_channels, num_classes ):
         super().__init__()
         self.model = torchvision.models.resnet18( pretrained = True )
