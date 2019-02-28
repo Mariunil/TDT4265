@@ -44,7 +44,7 @@ class Trainer:
         self.momentum = 0
         self.L2 = 0
         self.nesterov = False
-        self.early_stop_count = 6
+        self.early_stop_count = 1000
         self.should_anneal = False
         self.T = 5
         self.t = 0
