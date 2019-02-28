@@ -9,7 +9,7 @@ import model3
 
 
 if __name__ == "__main__":
-    trainer = model3.trainer()
+    trainer = model3.Trainer()
     trainer.train()
 
     file1 = open("model3_test_acc.txt", "w")
