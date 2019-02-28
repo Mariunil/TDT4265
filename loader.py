@@ -26,7 +26,7 @@ if __name__ == "__main__":
     task3_train_loss = json.load(file5)
     file5.close()
 
-    file6 = open("model3_val_loss.txt ", "r")
+    file6 = open("model3_val_loss.txt", "r")
     task3_val_loss = json.load(file6)
     file6.close()
 
