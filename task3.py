@@ -38,13 +38,13 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
          # Define hyperparameters
-        self.epochs = 1
+        self.epochs = 5
         self.batch_size = 32
         self.learning_rate = 0.0005
         self.momentum = 0
         self.L2 = 0
         self.nesterov = False
-        self.early_stop_count = 4
+        self.early_stop_count = 6
         self.should_anneal = False
         self.T = 5
         self.t = 0
