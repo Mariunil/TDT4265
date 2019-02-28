@@ -2,6 +2,34 @@ import os
 import json
 import matplotlib.pyplot as plt
 
+def file_reader():
+    epoch_list = [0, 0.33, 0.66, 1]
+
+    file1 = open("task3_test_acc.txt", "r")
+    task3_test_acc = json.load(file1)
+    file1.close()
+
+    file2 = open("task3_train_acc.txt", "r")
+    task3_train_acc = json.load(file2)
+    file2.close()
+
+    file3 = open("task3_val_acc.txt", "r")
+    task3_val_acc = json.load(file3)
+    file3.close()
+
+    file4 = open("task3_test_loss.txt", "r")
+    task3_test_loss = json.load(file4)
+    file4.close()
+
+    file5 = open("task3_train_loss.txt", "r")
+    task3_train_loss = json.load(file5)
+    file5.close()
+
+    file6 = open("task3_val_loss.txt", "r")
+    task3_val_loss = json.load(file6)
+    file6.close()
+
+    return task3_test_acc, task3_val_acc, task3_train_acc, task3_test_loss, task3_val_loss, task3_train_loss
 
 
 if __name__ == "__main__":
