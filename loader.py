@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     epoch_list = [0, 0.5, 1]
+
     file1 = open("model3_test_acc.txt", "r")
     task3_test_acc = json.load(file1)
     file1.close()

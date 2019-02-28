@@ -1,4 +1,5 @@
 import os
+import json
 import matplotlib.pyplot as plt
 import torch
 import torchvision
@@ -216,7 +217,7 @@ if __name__ == "__main__":
     file5.close()
 
     file6 = open("task3_val_loss.txt", "w")
-    json.dump(trainer.VALIDIATION_LOSS, file6)
+    json.dump(trainer.VALIDATION_LOSS, file6)
     file6.close()
 
 
