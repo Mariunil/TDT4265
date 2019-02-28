@@ -6,6 +6,7 @@ from torch import nn
 from dataloaders import load_cifar10
 from utils import to_cuda, compute_loss_and_accuracy
 import model3
+import json
 
 
 if __name__ == "__main__":
