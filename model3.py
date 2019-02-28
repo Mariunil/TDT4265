@@ -109,7 +109,7 @@ class Trainer:
         Set hyperparameters, architecture, tracking variables etc.
         """
         # Define hyperparameters
-        self.epochs = 10
+        self.epochs = 5
         self.batch_size = 64
         self.learning_rate = 0.0005
         self.early_stop_count = 4
